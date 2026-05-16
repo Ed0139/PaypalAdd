@@ -3,7 +3,7 @@
 
 @php $total = 0; @endphp
 
-@foreach($cart as $id => $item)
+@foreach ($cart as $id => $item)
     <div>
         <h3>{{ $item['name'] }}</h3>
         <p>Precio: ${{ $item['price'] }}</p>
@@ -20,3 +20,10 @@
 <h2>Total: ${{ $total }}</h2>
 
 <a href="/cart/clear">Vaciar carrito</a>
+
+<form action="{{ route('paypal.pay') }}" method="POST">
+    @csrf
+    <button type="submit">
+        Pagar con PayPal
+    </button>
+</form>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PaypalController extends Controller
 {
@@ -16,11 +17,11 @@ class PaypalController extends Controller
             [
                 'grant_type' => 'client_credentials'
             ]
-            );
-            return $response['access_token'];
+        );
+        return $response['access_token'];
     }
-    
-    /public function pay (Request $request)
+
+    public function pay(Request $request)
     {
         $cart = session('cart', []);
 
@@ -31,8 +32,8 @@ class PaypalController extends Controller
 
         $token = $this->getAccessToken();
 
-        $response = Http::withToken($token)->}
-        post('https://api-m.sandbox.paypal.com/v2/checkout/orders',
+        $response = Http::withToken($token)->post(
+            'https://api-m.sandbox.paypal.com/v2/checkout/orders',
             [
                 'intent' => 'CAPTURE',
                 'purchase_units' => [
@@ -42,7 +43,7 @@ class PaypalController extends Controller
                             'value' => $total
                         ]
                     ]
-                ]],
+                ],
                 'application_context' => [
                     'return_url' => route('paypal.success'),
                     'cancel_url' => route('paypal.cancel')
@@ -50,10 +51,11 @@ class PaypalController extends Controller
             ]
         );
 
-        $approvalUrl = collect($response['links'])->
-        where('rel','approve')->
-        first()['href'];
+        $approvalUrl = collect($response['links'])
+            ->where('rel', 'approve')
+            ->first()['href'];
 
+        return redirect($approvalUrl);
     }
 
     /**
@@ -112,4 +114,3 @@ class PaypalController extends Controller
         //
     }
 }
-
