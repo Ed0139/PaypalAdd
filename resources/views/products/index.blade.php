@@ -117,6 +117,10 @@
             Crear producto
         </a>
 
+        <a class="btn" href="/login">
+            Iniciar sesión
+        </a>
+
     </div>
 
     <div class="products">

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', [ProductController::class, 'index']);
 
@@ -23,3 +24,15 @@ Route::get('/paypal/success', [PaypalController::class, 'success'])->name(
 Route::get('/paypal/cancel', [PaypalController::class, 'cancel'])->name(
   'paypal.cancel',
 );
+
+// LOGIN CON GOOGLE (SIN MIDDLEWARE DE AUTENTICACIÓN)
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name(
+  'google.login',
+);
+
+Route::get('/auth/google/callback', [
+  AuthController::class,
+  'handleGoogleCallback',
+]);
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
