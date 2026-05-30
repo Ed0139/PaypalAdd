@@ -36,3 +36,7 @@ Route::get('/auth/google/callback', [
 ]);
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+Route::get('/bienvenido', function () {
+  return view('bienvenido');
+})->name('Bienvenido');

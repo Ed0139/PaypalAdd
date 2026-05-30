@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Socialite;
 use Google\Client as GoogleClient;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -42,5 +43,7 @@ class AuthController extends Controller
       $user->avatar = '/storage/' . $avatarName;
       $user->save();
     }
+    Auth::login($user);
+    return redirect()->route('Bienvenido');
   }
 }
