@@ -5,6 +5,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\MapController;
+use OpenAI\Resources\Chat;
 
 Route::get('/', [ProductController::class, 'index']);
 
@@ -40,3 +44,9 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/bienvenido', function () {
   return view('bienvenido');
 })->name('Bienvenido');
+
+Route::get('/chat', [ChatController::class, 'index']);
+Route::post('/preguntar', [ChatController::class, 'preguntar']);
+
+Route::get('/mapa', [MapController::class, 'show']);
+Route::post('/mapa', [MapController::class, 'search']);
