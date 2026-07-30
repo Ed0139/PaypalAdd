@@ -117,9 +117,31 @@
             Crear producto
         </a>
 
-        <a class="btn" href="/login">
-            Iniciar sesión
-        </a>
+        @if (Auth::check())
+
+            <span>
+                Hola, {{ Auth::user()->name }}
+            </span>
+
+            @if (Auth::user()->avatar)
+                <img src="{{ Auth::user()->avatar }}" width="40" style="border-radius:50%;">
+            @endif
+
+
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+
+                <button class="btn">
+                    Cerrar sesión
+                </button>
+
+            </form>
+        @else
+            <a class="btn" href="/login">
+                Iniciar sesión
+            </a>
+
+        @endif
 
     </div>
 
@@ -150,17 +172,16 @@
                         Agregar
                     </a>
 
-                    <form action="/products/{{ $product->id }}" method="POST">
+                    @can('delete', $product)
+                        <form action="/products/{{ $product->id }}" method="POST">
+                            @csrf
+                            @method('DELETE')
 
-                        @csrf
-                        @method('DELETE')
-
-                        <button class="delete-btn">
-                            Eliminar
-                        </button>
-
-                    </form>
-
+                            <button class="delete-btn">
+                                Eliminar
+                            </button>
+                        </form>
+                    @endcan
                 </div>
 
             </div>
